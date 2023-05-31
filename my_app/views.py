@@ -43,4 +43,8 @@ def signup(request):
 
 
 def signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
     return render(request, 'signin.html')

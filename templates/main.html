@@ -25,7 +25,8 @@
                         <!-- Logo -->
                         <div id="logo" class=" uk-hidden@s">
                             <a href="home">
-                                <b><h1 style="text-transform: uppercase;">Social Book</h1></b>
+                                <b><h1 style="text-transform: uppercase;">Social Book</h1>
+                                </b>
                             </a>
                         </div>
 
@@ -35,6 +36,11 @@
 
                         <div class="header_search">
                             <input type="text" placeholder="Search for username..">
+                            {% if reuqest.user.is_authenticated %}
+                            <h1>Hello Dear {{request.user}}</h1>
+                            {% else %}
+                            <h1>Please Login</h1>
+                            {% endif %}
                             <div class="icon-search">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -174,7 +180,7 @@
                                 <li><a href="setting"> Account setting </a> </li>
                                 <li><a href="explore">explore </a> </li>
                                 <li><a href="#"> Help </a> </li>
-                                <li><a href="signin"> Log Out</a></li>
+                                <li><a href="logout"> Log Out</a></li>
                             </ul>
                         </div>
 

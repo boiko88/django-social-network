@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import auth
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile
 
 
+@login_required(login_url='signin')
 def mainPage(request):
     return render(request, 'main.html')
 
@@ -31,7 +34,8 @@ def signup(request):
                 user_model = User.objects.get(username=username)
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
                 new_profile.save()
-                return redirect('signup')
+                messages.info(request, 'Success!')
+                return redirect('signin')
         else: 
             messages.info(request, 'Passwords Do Not Match!')
             return redirect('signup')
@@ -57,3 +61,9 @@ def signin(request):
             return redirect('signin')
         
     return render(request, 'signin.html')
+
+
+@login_required(login_url='signin')
+def logout(request):
+    auth.logout(request)
+    return redirect('signin')

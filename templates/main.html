@@ -36,8 +36,8 @@
 
                         <div class="header_search">
                             <input type="text" placeholder="Search for username..">
-                            {% if reuqest.user.is_authenticated %}
-                            <h1>Hello Dear {{request.user}}</h1>
+                            {% if user.is_authenticated %}
+                            <h1>Hello Dear {{user.username}}</h1>
                             {% else %}
                             <h1>Please Login</h1>
                             {% endif %}

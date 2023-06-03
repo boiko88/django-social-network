@@ -40,7 +40,7 @@ def signup(request):
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
                 new_profile.save()
                 messages.info(request, 'Success!')
-                return redirect('signin')
+                return redirect('settings')
         else: 
             messages.info(request, 'Passwords Do Not Match!')
             return redirect('signup')
@@ -76,4 +76,17 @@ def logout(request):
 
 @login_required(login_url='signin')
 def settings(request):
-    return render(request, 'settings.html')
+    user_profile = Profile.objects.get(user=request.user)
+    
+    if request.method == 'POST':
+        
+        if request.FILES.get('image') == None:
+            image = user_profile.profileimg
+            bio = request.POST['bio']
+            location = request.POST['location']
+    
+    context = {
+        'user_profile':  user_profile,
+        
+    }
+    return render(request, 'settings.html', context)

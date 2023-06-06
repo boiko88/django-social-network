@@ -25,8 +25,16 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_images')
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
-    number_of_likes = models.IntegerField(default=0)
+    likes_number = models.IntegerField(default=0)
     
     
     def __str__(self):
         return self.user
+    
+
+class LikePost(models.Model):
+    post_id = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.username

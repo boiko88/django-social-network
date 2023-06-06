@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile, Post
+from .models import Profile, Post, LikePost
 
 
 @login_required(login_url='signin')
-def mainPage(request):
+def main_page(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     posts = Post.objects.all()
@@ -126,4 +126,26 @@ def upload(request):
         
         return redirect('main')
     else:
+        return redirect('main')
+    
+
+@login_required(login_url='signin')  
+def likePost(request):
+    username = request.user.username
+    post_id = request.GET.get('post_id')
+    
+    post = Post.objects.get(id=post_id)
+    
+    like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
+    
+    if like_filter == None:
+        new_like = LikePost.objects.create(post_id=post_id, username=username)
+        new_like.save()
+        post.likes_number = post.likes_number+1
+        post.save()
+        return redirect('main')
+    else:
+        like_filter.delete()
+        post.likes_number = post.likes_number-1
+        post.save()
         return redirect('main')

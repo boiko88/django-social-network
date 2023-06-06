@@ -130,7 +130,7 @@ def upload(request):
     
 
 @login_required(login_url='signin')  
-def likePost(request):
+def like_Post(request):
     username = request.user.username
     post_id = request.GET.get('post_id')
     
@@ -149,3 +149,7 @@ def likePost(request):
         post.likes_number = post.likes_number-1
         post.save()
         return redirect('main')
+    
+
+def profile(request, pk):
+    return render(request, 'profile.html')

@@ -202,7 +202,7 @@
                                             <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                         </div>
                                     </a>
-                                    <span class="block capitalize font-semibold ">@{{post.user}}</span>
+                                    <span class="block capitalize font-semibold"><a href="/profile/{{post.user}}">@{{post.user}}</span></a>
                                 </div>
                               <div>
                                 <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
@@ -242,16 +242,12 @@
                                 </div>
                               </div>
                             </div>
-    
                             <div uk-lightbox>
                                 <a href="{{post.image.url}}">  
                                     <img src="{{post.image.url}}" alt="">
                                 </a>
                             </div>
-                            
-    
                             <div class="py-3 px-4 space-y-3"> 
-                                
                                 <!--Like functionality-->
                                 <div class="flex space-x-4 lg:font-bold">
                                     <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
@@ -276,7 +272,7 @@
                                 </div>
 
                                 <p>
-                                    <a><strong>{{post.user}}</strong> {{post.caption}}</a>
+                                    <a href="/profile/{{post.user}}"><strong>{{post.user}}</strong> {{post.caption}}</a>
                                 </p>
     
                             </div>

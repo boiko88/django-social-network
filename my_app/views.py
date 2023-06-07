@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile, Post, LikePost, FollowersCount
+from itertools import chain
 
 
 @login_required(login_url='signin')
@@ -11,9 +12,24 @@ def main_page(request):
     user_profile = Profile.objects.get(user=user_object)
     posts = Post.objects.all()
     
+    user_following_list = []
+    feed = []
+    # Queryset
+    user_following = FollowersCount.objects.filter(follower=request.user.username)
+    
+    for users in user_following:
+        user_following_list.append(users.user)
+        
+    for usernames in user_following_list:
+        feed_lists = Post.objects.filter(user=usernames)
+        feed.append(feed_lists)
+        
+    feed_list = list(chain(*feed))
+    
     context = {
         'user_profile': user_profile,
-        'posts': posts,
+        'posts': feed_list,
+        # It used to be 'posts': feed_list, but now we want users to see only post of the users they follow
     }
     return render(request, 'main.html', context)
 
@@ -96,6 +112,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+            return redirect('main')
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
@@ -105,6 +122,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+            
                 
     
     context = {

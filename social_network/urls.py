@@ -16,6 +16,7 @@ urlpatterns = [
     path('upload', views.upload, name="upload"),
     path('like-post', views.like_Post, name="like-post"),
     path('profile/<str:pk>', views.profile, name="profile"),
+    path('follow', views.follow, name="follow"),
     
 ]
 
